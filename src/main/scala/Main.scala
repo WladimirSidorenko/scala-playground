@@ -17,6 +17,14 @@ def isPalindrome(nums: Seq[Int] | Seq[Char]): Boolean =
   return true
 
 
+def flatten[T](el: Seq[T | Seq[T]] | T): T =
+  println(s"el ${el}")
+  el match {
+      case el: Seq[T | Seq[T]] => el.map(flatten)
+      case el: T => el
+  }
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -35,6 +43,9 @@ def isPalindrome(nums: Seq[Int] | Seq[Char]): Boolean =
   println(s"Find out whether a list is a palindrome: ${isPalindrome(nums)}")
   val abba = "abba"
   println(s"Find out whether 'abba' is a palindrome: ${isPalindrome(abba)}")
-  println(s"Find out whether a list is a palindrome: ${isPalindrome(nums)}")
+  val abcba = "abcba"
+  println(s"Find out whether 'abcba' is a palindrome: ${isPalindrome(abcba)}")
   i += 1
+  val numList = List(List(1, 2, 3), 4, List(5, List(6, 7)))
+  println(s"Task ${i}: Flatten a nested list structure: ${numList.map(flatten)}")
   println()
