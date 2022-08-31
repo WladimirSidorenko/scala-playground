@@ -1,13 +1,13 @@
 import scala.util.Random
 
 
-def s99_P02(nums: Seq[Int], idx: Int): Int =
+def getByIdx(nums: Seq[Int], idx: Int): Int =
   if idx < nums.length then
     return nums(idx)
   return -1
 
 
-def isPalindrome(nums: Seq[Int] | String): Boolean =
+def isPalindrome(nums: Seq[Int] | Seq[Char]): Boolean =
   val middle = nums.length / 2
   for i <- 0 until middle
       j <- nums.length - 1 to middle by -1
@@ -23,10 +23,10 @@ def isPalindrome(nums: Seq[Int] | String): Boolean =
   var i = 1
   println(s"Task ${i}: Find the last element of a list: ${nums.last}")
   i += 1
-  println(s"Task ${i}: Find the last but one element of a list: ${s99_P02(nums, nums.length - 2)}")
+  println(s"Task ${i}: Find the last but one element of a list: ${getByIdx(nums, nums.length - 2)}")
   i += 1
   val k = Random.nextInt(nums.length)
-  println(s"Task ${i}: Find the ${k}-th element of a list: ${s99_P02(nums, k)}")
+  println(s"Task ${i}: Find the ${k}-th element of a list: ${getByIdx(nums, k)}")
   i += 1
   println(s"Task ${i}: Find the number of elements of a list: ${nums.length}")
   i += 1
