@@ -7,23 +7,19 @@ def getByIdx(nums: Seq[Int], idx: Int): Int =
   return -1
 
 
-def isPalindrome(nums: Seq[Int] | Seq[Char]): Boolean =
+def isPalindrome(nums: Seq[_]): Boolean =
   val middle = nums.length / 2
-  for i <- 0 until middle
-      j <- nums.length - 1 to middle by -1
+  for (i, j) <- ((0 until middle) zip (nums.length - 1 to middle by -1))
   do
     if nums(i) != nums(j) then
       return false
   return true
 
 
-def flatten[T](el: Seq[T | Seq[T]] | T): T =
-  println(s"el ${el}")
-  el match {
-      case el: Seq[T | Seq[T]] => el.map(flatten)
-      case el: T => el
-  }
-
+def flatten(ls: List[Any]): List[Any] = ls flatMap {
+  case ms: List[_] => flatten(ms)
+  case e => List(e)
+}
 
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
@@ -47,5 +43,5 @@ def flatten[T](el: Seq[T | Seq[T]] | T): T =
   println(s"Find out whether 'abcba' is a palindrome: ${isPalindrome(abcba)}")
   i += 1
   val numList = List(List(1, 2, 3), 4, List(5, List(6, 7)))
-  println(s"Task ${i}: Flatten a nested list structure: ${numList.map(flatten)}")
+  println(s"Task ${i}: Flatten a nested list structure: ${flatten(numList)}")
   println()
