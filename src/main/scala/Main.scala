@@ -36,14 +36,20 @@ def compress[T](ls: Seq[T]): Seq[T] = {
 }
 
 
-def pack[T](ls: List[T]): List[T | List[T]] = {
-  def compressR(result: List[T | List[T]], curList: List[T]): List[T | List[T]] =
+def pack[T](ls: List[T]): List[List[T]] = {
+  def compressR(result: List[List[T]], curList: List[T]): List[List[T]] =
     curList match {
-      case h :: tail if tail.isEmpty || tail.head != h => compressR(h :: result, tail)
+      case h :: tail if tail.isEmpty || tail.head != h => compressR(List(h) :: result, tail)
       case h :: tail => compressR((h :: tail.takeWhile(_ == h)) :: result, tail.dropWhile(_ == h))
       case Nil => result.reverse
     }
   compressR(Nil, ls)
+}
+
+
+def lengthEncode[T](lst: List[T]): List[(Int, T)] = pack(lst).map{
+  case el: List[T] => (el.length, el(0))
+  case el: T => (1, el)
 }
 
 
@@ -77,4 +83,5 @@ def pack[T](ls: List[T]): List[T | List[T]] = {
   i += 1
   println(s"Task ${i}: Pack consecutive duplicates of list elements into sublists.: ${pack(duplicateList)}")
   i += 1
+  println(s"Task ${i}: Run-length encoding of a list: ${lengthEncode(duplicateList)}")
   println()
