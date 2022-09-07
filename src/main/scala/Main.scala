@@ -48,8 +48,13 @@ def pack[T](ls: List[T]): List[List[T]] = {
 
 
 def lengthEncode[T](lst: List[T]): List[(Int, T)] = pack(lst).map{
-  case el: List[T] => (el.length, el(0))
-  case el: T => (1, el)
+  (el) => (el.length, el(0))
+}
+
+
+def modifyLengthEncode[T](lst: List[(Int, T)]): List[(Int, T) | T] = lst.map{
+  case (1, item) => item
+  case el => el
 }
 
 
@@ -83,5 +88,8 @@ def lengthEncode[T](lst: List[T]): List[(Int, T)] = pack(lst).map{
   i += 1
   println(s"Task ${i}: Pack consecutive duplicates of list elements into sublists.: ${pack(duplicateList)}")
   i += 1
-  println(s"Task ${i}: Run-length encoding of a list: ${lengthEncode(duplicateList)}")
+  val lengthEncoded = lengthEncode(duplicateList)
+  println(s"Task ${i}: Run-length encoding of a list: ${lengthEncoded}")
+  i += 1
+  println(s"Task ${i}: Modified run-length encoding: ${modifyLengthEncode(lengthEncoded)}")
   println()
