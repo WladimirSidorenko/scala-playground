@@ -58,6 +58,11 @@ def modifyLengthEncode[T](lst: List[(Int, T)]): List[(Int, T) | T] = lst.map{
 }
 
 
+def lengthDecode[T](lst: List[(Int, T)]): List[T] = lst.flatMap{
+  (length, el) => Seq.fill(length)(el)
+}
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -92,4 +97,6 @@ def modifyLengthEncode[T](lst: List[(Int, T)]): List[(Int, T) | T] = lst.map{
   println(s"Task ${i}: Run-length encoding of a list: ${lengthEncoded}")
   i += 1
   println(s"Task ${i}: Modified run-length encoding: ${modifyLengthEncode(lengthEncoded)}")
+  i += 1
+  println(s"Task ${i}: code a run-length encoded list: ${lengthDecode(lengthEncoded)}")
   println()
