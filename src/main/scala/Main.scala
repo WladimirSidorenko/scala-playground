@@ -63,6 +63,18 @@ def lengthDecode[T](lst: List[(Int, T)]): List[T] = lst.flatMap{
 }
 
 
+def directLengthEncode[T](ls: List[T]): List[(Int, T)] =
+  if (ls.isEmpty) Nil
+  else {
+    val (packed, next) = ls span { _ == ls.head }
+    (packed.length, packed.head) :: directLengthEncode(next)
+  }
+
+
+def duplicateN[T](n: Int, ls: List[T]): List[T] =
+  ls.flatMap(List.fill(n)(_))
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -98,5 +110,11 @@ def lengthDecode[T](lst: List[(Int, T)]): List[T] = lst.flatMap{
   i += 1
   println(s"Task ${i}: Modified run-length encoding: ${modifyLengthEncode(lengthEncoded)}")
   i += 1
-  println(s"Task ${i}: code a run-length encoded list: ${lengthDecode(lengthEncoded)}")
+  println(s"Task ${i}: Decode a run-length encoded list: ${lengthDecode(lengthEncoded)}")
+  i += 1
+  println(s"Task ${i}: Run-length encoding of a list (direct solution): ${directLengthEncode(duplicateList)}")
+  i += 1
+  println(s"Task ${i}: Duplicate the elements of a list: ${duplicateN(2, List('a', 'b', 'c', 'c', 'd'))}")
+  i += 1
+  println(s"Task ${i}: Duplicate the elements of a list a given number of times: ${duplicateN(3, List('a', 'b', 'c', 'c', 'd'))}")
   println()
