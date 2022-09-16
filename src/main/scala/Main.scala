@@ -63,6 +63,15 @@ def lengthDecode[T](lst: List[(Int, T)]): List[T] = lst.flatMap{
 }
 
 
+def dropN[T](N: Int, ret: List[T], seq: List[T]): List[T] = seq match {
+    case Nil => ret
+    case _ => {
+      val (head, tail) = seq.splitAt(N - 1)
+      dropN(N, ret ::: head, if tail.nonEmpty then tail.tail else Nil)
+    }
+}
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -98,5 +107,8 @@ def lengthDecode[T](lst: List[(Int, T)]): List[T] = lst.flatMap{
   i += 1
   println(s"Task ${i}: Modified run-length encoding: ${modifyLengthEncode(lengthEncoded)}")
   i += 1
-  println(s"Task ${i}: code a run-length encoded list: ${lengthDecode(lengthEncoded)}")
+  println(s"Task ${i}: Decode a run-length encoded list: ${lengthDecode(lengthEncoded)}")
+  i += 1
+  val N = 3;
+  println(s"Task ${i}: Drop every ${N}th element from a list ${duplicateList}: ${dropN(N, Nil, duplicateList)}")
   println()
