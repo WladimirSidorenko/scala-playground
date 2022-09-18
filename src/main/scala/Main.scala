@@ -72,6 +72,10 @@ def dropN[T](N: Int, ret: List[T], seq: List[T]): List[T] = seq match {
 }
 
 
+def splitN[T](N: Int, seq: List[T]): (List[T], List[T]) =
+  seq.splitAt(N)
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -111,4 +115,9 @@ def dropN[T](N: Int, ret: List[T], seq: List[T]): List[T] = seq match {
   i += 1
   val N = 3;
   println(s"Task ${i}: Drop every ${N}th element from a list ${duplicateList}: ${dropN(N, Nil, duplicateList)}")
+  i += 1
+  val chars = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k');
+  println(s"Task ${i}: Split a list into two parts: ${splitN(N, chars)}")
+  i += 1
+  println(s"Task ${i}: Extract a slice from a list: ${slice(2, 6, chars)}")
   println()
