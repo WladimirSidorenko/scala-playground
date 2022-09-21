@@ -75,6 +75,37 @@ def duplicateN[T](n: Int, ls: List[T]): List[T] =
   ls.flatMap(List.fill(n)(_))
 
 
+def dropN[T](N: Int, ret: List[T], seq: List[T]): List[T] = seq match {
+    case Nil => ret
+    case _ => {
+      val (head, tail) = seq.splitAt(N - 1)
+      dropN(N, ret ::: head, if tail.nonEmpty then tail.tail else Nil)
+    }
+}
+
+
+def splitN[T](N: Int, seq: List[T]): (List[T], List[T]) =
+  seq.splitAt(N)
+
+
+def slice[T](from: Int, until: Int, seq: List[T]): List[T] =
+   seq.slice(from, until)
+
+
+def rotate[T](n: Int, seq: List[T]): List[T] =
+   if (n < 0) then
+     import java.lang.Math.abs
+     val k = abs(n)
+     seq.takeRight(k) ::: seq.dropRight(k)
+   else
+     seq.drop(n) ::: seq.take(n)
+
+
+def removeAt[T](n: Int, seq: List[T]): (List[T], T) =
+   val (head, tail) = seq.splitAt(n)
+   (head ::: tail.tail, tail.head)
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -117,4 +148,16 @@ def duplicateN[T](n: Int, ls: List[T]): List[T] =
   println(s"Task ${i}: Duplicate the elements of a list: ${duplicateN(2, List('a', 'b', 'c', 'c', 'd'))}")
   i += 1
   println(s"Task ${i}: Duplicate the elements of a list a given number of times: ${duplicateN(3, List('a', 'b', 'c', 'c', 'd'))}")
+  val N = 3;
+  println(s"Task ${i}: Drop every ${N}th element from a list ${duplicateList}: ${dropN(N, Nil, duplicateList)}")
+  i += 1
+  val chars = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k');
+  println(s"Task ${i}: Split a list into two parts: ${splitN(N, chars)}")
+  i += 1
+  println(s"Task ${i}: Extract a slice from a list: ${slice(2, 6, chars)}")
+  i += 1
+  println(s"Task ${i}: Rotate a list N places to the left: ${rotate(3, chars)}")
+  println(s"Task ${i}: Rotate a list N places to the left: ${rotate(-2, chars)}")
+  i += 1
+  println(s"Task ${i}: Remove the Kth element from a list: ${removeAt(1, chars)}")
   println()
