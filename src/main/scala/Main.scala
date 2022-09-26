@@ -106,6 +106,15 @@ def removeAt[T](n: Int, seq: List[T]): (List[T], T) =
    (head ::: tail.tail, tail.head)
 
 
+def insertAt[T](el: T, pos: Int, seq: List[T]): List[T] =
+  val (head, tail) = seq.splitAt(pos)
+  head ::: (el :: tail)
+
+
+def range(start: Int, end: Int): List[Int] =
+   (start to end).toList
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -160,4 +169,8 @@ def removeAt[T](n: Int, seq: List[T]): (List[T], T) =
   println(s"Task ${i}: Rotate a list N places to the left: ${rotate(-2, chars)}")
   i += 1
   println(s"Task ${i}: Remove the Kth element from a list: ${removeAt(1, chars)}")
+  i += 1
+  println(s"""Task ${i}: Insert an element at a given position into a list: ${insertAt("new", 1, List("a", "b", "c", "d"))}""")
+  i += 1
+  println(s"Task ${i}: Create a list containing all integers within a given range: ${range(4, 9)}")
   println()
