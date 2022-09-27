@@ -127,6 +127,14 @@ def randomSelect[T](n: Int, seq: List[T]): List[T] =
   }
 
 
+def lotto(n: Int, end: Int): List[Int] =
+   randomSelect(n, (0 to end).toList)
+
+
+def randomPermute[T](seq: List[T]): List[T] =
+   randomSelect(seq.length, seq)
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -187,4 +195,8 @@ def randomSelect[T](n: Int, seq: List[T]): List[T] =
   println(s"Task ${i}: Create a list containing all integers within a given range: ${range(4, 9)}")
   i += 1
   println(s"Task ${i}: Extract a given number of randomly selected elements from a list: ${randomSelect(3, chars)}")
+  i += 1
+  println(s"Task ${i}: Lotto: Draw N different random numbers from the set 1..M: ${lotto(6, 49)}")
+  i += 1
+  println(s"Task ${i}: Generate a random permutation of the elements of a list: ${randomPermute(chars)}")
   println()
