@@ -135,6 +135,18 @@ def randomPermute[T](seq: List[T]): List[T] =
    randomSelect(seq.length, seq)
 
 
+def combinations[T](k: Int, seq: List[T]): List[List[T]] =
+   def generateCombinations(k: Int, head: T, tail: List[T]): Iterator[List[T]] =
+     for t <- tail.sliding(k) yield head :: t
+
+   seq match {
+     case head :: tail if tail.length > k => {
+       generateCombinations(k - 1, head, tail).toList ::: combinations(k, tail)
+     }
+     case _ => Nil
+   }
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -199,4 +211,8 @@ def randomPermute[T](seq: List[T]): List[T] =
   println(s"Task ${i}: Lotto: Draw N different random numbers from the set 1..M: ${lotto(6, 49)}")
   i += 1
   println(s"Task ${i}: Generate a random permutation of the elements of a list: ${randomPermute(chars)}")
+  i += 1
+  val K = 3
+  val combos = combinations(3, chars)
+  println(s"Task ${i}: Generate the combinations of $K distinct objects chosen from the ${chars.length} elements of a list: ${combos.take(3)} (${combos.length})")
   println()
