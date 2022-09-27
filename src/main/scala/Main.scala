@@ -115,6 +115,18 @@ def range(start: Int, end: Int): List[Int] =
    (start to end).toList
 
 
+def randomSelect[T](n: Int, seq: List[T]): List[T] =
+  val seqLength = seq.length
+  n match {
+    case m if m <= 0 || seqLength == 0 => Nil
+    case _ => {
+      val idx = Random.nextInt(seqLength)
+      val (reducedSeq: List[T], el: T) = removeAt(idx, seq)
+      el :: randomSelect(n - 1, reducedSeq)
+    }
+  }
+
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -173,4 +185,6 @@ def range(start: Int, end: Int): List[Int] =
   println(s"""Task ${i}: Insert an element at a given position into a list: ${insertAt("new", 1, List("a", "b", "c", "d"))}""")
   i += 1
   println(s"Task ${i}: Create a list containing all integers within a given range: ${range(4, 9)}")
+  i += 1
+  println(s"Task ${i}: Extract a given number of randomly selected elements from a list: ${randomSelect(3, chars)}")
   println()
