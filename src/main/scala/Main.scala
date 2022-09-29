@@ -136,17 +136,25 @@ def lotto(n: Int, end: Int): List[Int] =
 def randomPermute[T](seq: List[T]): List[T] =
    randomSelect(seq.length, seq)
 
-
 def combinations[T](k: Int, seq: List[T]): List[List[T]] =
-   def generateCombinations(k: Int, head: T, tail: List[T]): Iterator[List[T]] =
-     for t <- tail.sliding(k) yield head :: t
+  def generateSuffixes(k: Int, head: List[T], tail: List[T]): List[List[T]] = {
+    if (tail.lengthIs < k) then {
+      (head ::: tail) :: Nil
+    } else if (k > 2 && tail.lengthIs >= k) then {
+      val (tailHead, tailTail) = tail.splitAt(1)
+      val crntPrfx = for el <- generateSuffixes(k - 1, head ::: tailHead, tailTail) yield el
+      crntPrfx ::: (for el <- generateSuffixes(k, head, tailTail) yield el)
+    } else {
+      for (t <- tail) yield head :+ t
+    }
+  }
 
-   seq match {
-     case head :: tail if tail.length > k => {
-       generateCombinations(k - 1, head, tail).toList ::: combinations(k, tail)
-     }
-     case _ => Nil
-   }
+  seq match {
+    case head :: tail if seq.lengthIs >= k => {
+      generateSuffixes(k, head :: Nil, tail) ::: combinations(k, tail)
+    }
+    case _ => Nil
+  }
 
 
 @main def hello: Unit =
@@ -215,6 +223,6 @@ def combinations[T](k: Int, seq: List[T]): List[List[T]] =
   println(s"Task ${i}: Generate a random permutation of the elements of a list: ${randomPermute(chars)}")
   i += 1
   val K = 3
-  val combos = combinations(3, chars)
-  println(s"Task ${i}: Generate the combinations of $K distinct objects chosen from the ${chars.length} elements of a list: ${combos.take(3)} (${combos.length})")
+  val combos = combinations(3, chars.take(11))
+  println(s"Task ${i}: Generate the combinations of $K distinct objects chosen from the ${chars.take(11)} elements of a list: ${combos.take(3)} (${combos.length})")
   println()
