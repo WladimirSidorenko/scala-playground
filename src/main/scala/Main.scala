@@ -1,5 +1,7 @@
 import scala.util.Random
+import com.typesafe.scalalogging.Logger
 
+val LOGGER = Logger("scala-playground")
 
 def getByIdx(nums: Seq[Int], idx: Int): Int =
   if idx < nums.length then
