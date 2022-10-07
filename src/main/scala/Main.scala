@@ -157,6 +157,16 @@ def combinations[T](k: Int, seq: List[T]): List[List[T]] =
   }
 
 
+def group[A](cardinalities: List[Int], ls: List[A]): List[List[List[A]]] = {
+  assert(cardinalities.sum == ls.length, "Grouping cardinality does not match list length.")
+  var ret = Nil
+  var samples = ls
+  for c <- cardinalities do {
+
+  }
+  return ret
+}
+
 @main def hello: Unit =
   val nums = for i <- 1 to 5 yield Random.nextInt(i)
   println(s"List $nums")
@@ -225,4 +235,7 @@ def combinations[T](k: Int, seq: List[T]): List[List[T]] =
   val K = 3
   val combos = combinations(3, chars.take(11))
   println(s"Task ${i}: Generate the combinations of $K distinct objects chosen from the ${chars.take(11)} elements of a list: ${combos.take(3)} (${combos.length})")
+  i += 1
+  val groups = group(List(2, 1, 2), chars.take(5))
+  println(s"Task ${i}: Group the elements of a set into disjoint subsets.: ${groups} (${groups.length})")
   println()
